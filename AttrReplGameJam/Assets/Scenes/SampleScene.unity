@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 80690166}
   - component: {fileID: 80690165}
   - component: {fileID: 80690164}
+  - component: {fileID: 80690168}
   - component: {fileID: 80690163}
   - component: {fileID: 80690167}
   - component: {fileID: 80690162}
@@ -252,16 +253,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0cca5b6d069bcb44a5ab9a8dd2e7b87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attractForce: 6
-  attractDistance: 0.5
+  chainTime: 1
+  attractForce: 8
   repelForce: 500
-  repelTimeBuffer: 0.5
+  repelTimeBuffer: 0.3
   drag: 0.99
   dragThreshold: 0.2
   attractPoint: {fileID: 1966239217}
   playerStar: {fileID: 211499577}
   playerStarPrefab: {fileID: 5197996695329858787, guid: 88584d8e73797a348b70d393c2bbc9e1, type: 3}
   attractionBeam: {fileID: 1782600546}
+--- !u!114 &80690168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 80690161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64e1f71e369bc9b43a52c12382d529db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalPoints: 0
 --- !u!1 &161657445
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,6 +368,7 @@ GameObject:
   m_Component:
   - component: {fileID: 211499578}
   - component: {fileID: 211499579}
+  - component: {fileID: 211499580}
   m_Layer: 0
   m_Name: PlayerStar
   m_TagString: Untagged
@@ -374,7 +389,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1966239217}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -197.18987}
 --- !u!212 &211499579
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -426,6 +441,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!111 &211499580
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 211499577}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 1d2e862dbf43e144da5a41711b77e40c, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 1d2e862dbf43e144da5a41711b77e40c, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,6 +470,8 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420035}
+  - component: {fileID: 519420034}
   m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -588,6 +621,38 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!95 &519420034
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fccae70ea527c6a4d9cc81b683ffe392, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &519420035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 245043236a8a1194496771e986832332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerStarController: {fileID: 80690167}
 --- !u!1 &1781992470
 GameObject:
   m_ObjectHideFlags: 0
@@ -871,7 +936,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.3, y: 0.3}
+  m_Size: {x: 0.2, y: 0.2}
   m_EdgeRadius: 0
 --- !u!1 &2108456081
 GameObject:
@@ -885,6 +950,8 @@ GameObject:
   - component: {fileID: 2108456084}
   - component: {fileID: 2108456083}
   - component: {fileID: 2108456082}
+  - component: {fileID: 2108456086}
+  - component: {fileID: 2108456087}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -1004,3 +1071,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2108456086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2108456081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c248f6697fb09db40996d1c520a8da60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyName: Square
+  health: 1
+  pointValue: 3
+  rotateSpeed: 8
+  moveSpeed: 15
+  maxVel: 4
+  drag: 0.99
+  deathEffect: {fileID: 0}
+  pointPrefab: {fileID: 3406830090504012068, guid: 109225abdd98d6144937303eeaaf344e, type: 3}
+--- !u!114 &2108456087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2108456081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0411a1282268fe4b8060b9270119f64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buffer: 1
+  wrapDelay: 0
+  canWrap: 1
