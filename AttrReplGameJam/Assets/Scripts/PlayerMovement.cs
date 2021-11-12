@@ -5,11 +5,11 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Player Settings")]
-    public float rotateSpeed = 5f; // Speed to look at mouse
-    public float moveSpeed = 5f; // Speed to reach max vel
-    public float maxVel; // Max achievable velocity
-    public float dragThreshold; // Threshold of vel speed to enable drag
-    public float drag; // Counter movement
+    [SerializeField] private float rotateSpeed = 5f; // Speed to look at mouse
+    [SerializeField] private float moveSpeed = 5f; // Speed to reach max vel
+    [SerializeField] private float maxVel; // Max achievable velocity
+    [SerializeField] private float dragThreshold; // Threshold of vel speed to enable drag
+    [SerializeField] private float drag; // Counter movement
 
     // Private
     private Rigidbody2D body;
@@ -40,12 +40,10 @@ public class PlayerMovement : MonoBehaviour
             body.AddForce(playerInput * moveSpeed);
 
         // Drag
-        if ((body.velocity.magnitude > dragThreshold && playerInput.magnitude == 0) || body.velocity.magnitude >= maxVel)
+        if (body.velocity.magnitude > dragThreshold)
         {
             body.velocity = new Vector2(body.velocity.x * drag, body.velocity.y * drag);
         }
-
-        Debug.Log(body.velocity.magnitude);
     }
 
     /* Alt movement
