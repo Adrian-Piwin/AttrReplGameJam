@@ -7,6 +7,7 @@ public class Star : MonoBehaviour
 {
     [System.NonSerialized] public float drag;
     [System.NonSerialized] public float dragThreshold;
+    [System.NonSerialized] public GameObject enemy;
 
     private Rigidbody2D body;
 
@@ -35,8 +36,11 @@ public class Star : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.tag == "Enemy") 
+        if (collision.transform.tag == "Enemy")
+        {
+            enemy = collision.gameObject;
             OnHitEnemy();
+        }
 
         if (collision.transform.tag == "AttractPoint")
             OnHitPlayer();

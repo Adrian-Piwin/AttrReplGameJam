@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,6 @@ public class PlayerStarController : MonoBehaviour
 {
     [Header("Star Settings")]
     [SerializeField] private float attractForce; // Force of attraction
-    [SerializeField] private float attractDistance; // Distance in which star should star going straight
     [SerializeField] private float repelForce; // Force of repel
     [SerializeField] private float repelTimeBuffer; // Time to wait after repelling to allow attraction
     [SerializeField] private float drag; // Star drag
@@ -18,11 +18,19 @@ public class PlayerStarController : MonoBehaviour
     [SerializeField] private GameObject playerStarPrefab;
     [SerializeField] private AttractionBeam attractionBeam;
 
+    // Actions
+    public Action OnRepelStar;
+    public Action OnAttractStar;
+    public Action OnStopAttractStar;
+    public Action OnStarReturn;
+    public Action OnStarHit;
+
     private GameObject star;
     private bool fireInput;
     private bool fireInputDown;
     private bool allowAttraction;
     private bool isStarConnected = true;
+    private bool isAttracting;
 
     // Update is called once per frame
     void Update()
@@ -43,6 +51,8 @@ public class PlayerStarController : MonoBehaviour
         // Check for fire input or if star is currently connected
         if (!fireInputDown || !isStarConnected) return;
 
+        //OnRepelStar();
+
         // Spawn star and launch it
         star = Instantiate(playerStarPrefab);
         // Setup position
@@ -55,7 +65,7 @@ public class PlayerStarController : MonoBehaviour
         starScript.dragThreshold = dragThreshold;
         // Subscribe to star functions
         starScript.OnHitEnemy += HitEnemy;
-        starScript.OnHitPlayer += OnStarReturn;
+        starScript.OnHitPlayer += StarRetrieved;
 
         // Disable star on player
         playerStar.SetActive(false);
@@ -74,15 +84,21 @@ public class PlayerStarController : MonoBehaviour
         {
             // Disable beam
             attractionBeam.DisableBeam();
+            if (isAttracting)
+            {
+                //OnStopAttractStar();
+                isAttracting = false;
+            }
             return;
+        }
+        if (!isAttracting)
+        {
+            //OnAttractStar();
+            isAttracting = true;
         }
 
         // Get position of halfway between star and facing direction
-        Vector3 targetPos;
-        if (Vector2.Distance(star.transform.position, attractPoint.transform.position) > attractDistance)
-            targetPos = attractPoint.transform.position + (transform.up * (Vector2.Distance(star.transform.position, attractPoint.transform.position) / 2));
-        else
-            targetPos = attractPoint.transform.position;
+        Vector3 targetPos = attractPoint.transform.position + (transform.up * (Vector2.Distance(star.transform.position, attractPoint.transform.position) / 2));
 
         // Enable beam
         attractionBeam.SetBeamPos(attractPoint.transform.position, targetPos, star.transform.position);
@@ -91,10 +107,12 @@ public class PlayerStarController : MonoBehaviour
         starBody.velocity = (targetPos - star.transform.position).normalized * attractForce;
     }
 
-    // Star Retrieveds
-    private void OnStarReturn() 
+    // Star Retrieved
+    private void StarRetrieved() 
     {
         if (!allowAttraction) return;
+
+        //OnStarReturn();
 
         // Destroy prefab star
         Destroy(star);
@@ -105,11 +123,16 @@ public class PlayerStarController : MonoBehaviour
         isStarConnected = true;
     }
 
+    // Star hit enemy
     private void HitEnemy() 
     {
-        Debug.Log("hit");
+        OnStarHit();
+
+        GameObject enemy = star.GetComponent<Star>().enemy;
+        Destroy(enemy);
     }
 
+    // Time to wait before allowing attraction
     IEnumerator RepelTime() 
     {
         allowAttraction = false;
