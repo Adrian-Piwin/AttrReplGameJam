@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class EnemyManagement : MonoBehaviour
 {
+    [Header("Spawn Settings")]
     [SerializeField] private float spawnInterval;
     [SerializeField] private float spawnBuffer;
 
+    [Header("Danger Settings")]
+    [SerializeField] private float dangerSignPosBuffer;
+    [SerializeField] private float dangerSignWarningTime;
+
     [SerializeField] List<GameObject> enemies;
+    [SerializeField] GameObject dangerSign;
 
     private Camera cam;
     private float distanceZ, leftConstraint, rightConstraint, bottomConstraint, topConstraint;
     private List<bool> spawnSide; // Used to know what sides a enemy spawned in last
     private IEnumerator spawner;
+    private int lastSpawnSide; // Last side enemy spawned from
 
     // Start is called before the first frame update
     void Start()
@@ -46,9 +53,16 @@ public class EnemyManagement : MonoBehaviour
     {
         while (true) 
         {
-            GameObject enemy = Instantiate(SelectEnemy(), GetSpawnPoint(), Quaternion.identity);
+            yield return new WaitForSeconds(spawnInterval - dangerSignWarningTime);
+            Vector2 spawnPoint = GetSpawnPoint();
+
+            float dangerBufferX = lastSpawnSide == 2 ? -dangerSignPosBuffer : lastSpawnSide == 3 ? dangerSignPosBuffer : 0;
+            float dangerBufferY = lastSpawnSide == 0 ? -dangerSignPosBuffer : lastSpawnSide == 1 ? dangerSignPosBuffer : 0;
+            Destroy(Instantiate(dangerSign, new Vector2(spawnPoint.x + dangerBufferX, spawnPoint.y + dangerBufferY), Quaternion.identity), dangerSignWarningTime);
+            yield return new WaitForSeconds(dangerSignWarningTime);
+
+            GameObject enemy = Instantiate(SelectEnemy(), spawnPoint, Quaternion.identity);
             EnableEnemyWrapping(enemy);
-            yield return new WaitForSeconds(spawnInterval);
         }
     }
 
@@ -87,6 +101,7 @@ public class EnemyManagement : MonoBehaviour
 
         // Get random x and y position off the screen
         int randomSide = Random.Range(0, availableSpawnSide.Count);
+        lastSpawnSide = randomSide;
         float xPos = 0, yPos = 0;
         switch (availableSpawnSide[randomSide]) 
         {

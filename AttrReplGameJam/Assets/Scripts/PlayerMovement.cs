@@ -62,8 +62,14 @@ public class PlayerMovement : MonoBehaviour
 
     // Rotate player towards mouse
     private void rotatePlayer(){
-    	// Look at mouse
-	    Vector3 worldPoint = Camera.main.ScreenToWorldPoint(playerInput.mousePosition);
+        // Look at mouse
+        Vector3 worldPoint;
+        // Face player up on start of game
+        if (playerInput.mousePosition == Vector3.zero)
+            worldPoint = transform.up;
+        else
+            worldPoint = Camera.main.ScreenToWorldPoint(playerInput.mousePosition);
+
         Vector2 dir = new Vector2(worldPoint.x - transform.position.x, worldPoint.y - transform.position.y);
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;

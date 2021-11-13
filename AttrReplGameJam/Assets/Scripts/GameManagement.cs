@@ -7,6 +7,7 @@ public class GameManagement : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float countdownInterval;
+    [SerializeField] private List<string> countdownStrings;
 
     [Header("Object References")]
     [SerializeField] private GameObject player;
@@ -76,14 +77,13 @@ public class GameManagement : MonoBehaviour
     IEnumerator Countdown() 
     {
         isCountingDown = true;
-        for (int i = 3; i > -1; i--) 
+
+        foreach (string str in countdownStrings) 
         {
             yield return new WaitForSecondsRealtime(countdownInterval);
             countdownUIAnimator.Play("TextChange");
-            countdownUI.text = "" + i;
+            countdownUI.text = "" + str;
         }
-        countdownUIAnimator.Play("TextChange");
-        countdownUI.text = "GO";
         yield return new WaitForSecondsRealtime(countdownInterval);
         countdownUI.text = "";
 
