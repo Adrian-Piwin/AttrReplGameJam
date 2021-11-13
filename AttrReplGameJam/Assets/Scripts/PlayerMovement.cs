@@ -13,18 +13,17 @@ public class PlayerMovement : MonoBehaviour
 
     // Private
     private Rigidbody2D body;
-    private Vector2 playerInput;
+    private PlayerInput playerInput;
 
     // Start is called before the first frame update
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
+        playerInput = GetComponent<PlayerInput>();
     }
 
     // Update is called once per frame
     void Update(){
-        playerInput.x = Input.GetAxisRaw("Horizontal");
-        playerInput.y = Input.GetAxisRaw("Vertical");
 
         rotatePlayer();
     }
@@ -37,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
     private void movePlayer(){
         // Movement
         if (body.velocity.magnitude < maxVel)
-            body.AddForce(playerInput * moveSpeed);
+            body.AddForce(playerInput.movementInput * moveSpeed);
 
         // Drag
         if (body.velocity.magnitude > dragThreshold)
@@ -64,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
     // Rotate player towards mouse
     private void rotatePlayer(){
     	// Look at mouse
-	    Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+	    Vector3 worldPoint = Camera.main.ScreenToWorldPoint(playerInput.mousePosition);
         Vector2 dir = new Vector2(worldPoint.x - transform.position.x, worldPoint.y - transform.position.y);
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;

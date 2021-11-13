@@ -28,19 +28,21 @@ public class PlayerStarController : MonoBehaviour
     public Action OnStarReturn;
     public Action OnStarHit;
 
+    private PlayerInput playerInput;
     private GameObject star;
     private float timeSinceLastKill;
-    private bool fireInput;
-    private bool fireInputDown;
     private bool allowAttraction;
     private bool isStarConnected = true;
     private bool isAttracting;
 
+    private void Start()
+    {
+        playerInput = GetComponent<PlayerInput>();
+    }
+
     // Update is called once per frame
     void Update()
     {
-        fireInput = Input.GetButton("Fire1");
-        fireInputDown = Input.GetButtonDown("Fire1");
         Repel();
     }
 
@@ -53,7 +55,7 @@ public class PlayerStarController : MonoBehaviour
     private void Repel() 
     {
         // Check for fire input or if star is currently connected
-        if (!fireInputDown || !isStarConnected) return;
+        if (!playerInput.fireInputDown || !isStarConnected) return;
 
         //OnRepelStar();
 
@@ -84,7 +86,7 @@ public class PlayerStarController : MonoBehaviour
     private void Attract() 
     {
         // Check for fire input or if star is currently connected
-        if (!fireInput || isStarConnected || !allowAttraction) 
+        if (!playerInput.fireInput || isStarConnected || !allowAttraction) 
         {
             // Disable beam
             attractionBeam.DisableBeam();
