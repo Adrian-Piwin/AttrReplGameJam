@@ -6,6 +6,12 @@ TagManager:
   tags:
   - Enemy
   - AttractPoint
+  - ground
+  - Obstacle
+  - BombPickup
+  - ExplosionFX
+  - Bullet
+  - HealthBar
   layers:
   - Default
   - TransparentFX
@@ -14,9 +20,9 @@ TagManager:
   - Water
   - UI
   - PostProcessing
-  - 
-  - 
-  - 
+  - Fragment
+  - Player
+  - Enemy
   - 
   - 
   - 
@@ -45,6 +51,9 @@ TagManager:
     locked: 0
   - name: Background
     uniqueID: 1264197447
+    locked: 0
+  - name: Fragment
+    uniqueID: 564888301
     locked: 0
   - name: Player
     uniqueID: 3610491145

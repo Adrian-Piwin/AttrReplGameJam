@@ -9,7 +9,9 @@ public class PlayerStarController : MonoBehaviour
     [SerializeField] private float chainTime; // Time between kills to be a chain
 
     [Header("Star Movement Settings")]
-    [SerializeField] private float attractForce; // Force of attraction
+    [SerializeField] private float attractForceMax; // Max force of attraction
+    [SerializeField] private float attractDistanceMin; // min force of attraction
+    [SerializeField] private float attractDistanceMax; // Max distance of attraction for min force
     [SerializeField] private float repelForce; // Force of repel
     [SerializeField] private float repelTimeBuffer; // Time to wait after repelling to allow attraction
     [SerializeField] private float drag; // Star drag
@@ -104,13 +106,18 @@ public class PlayerStarController : MonoBehaviour
         }
 
         // Get position of halfway between star and facing direction
-        Vector3 targetPos = attractPoint.transform.position + (transform.up * (Vector2.Distance(star.transform.position, attractPoint.transform.position) / 2));
+        Vector3 targetPos = attractPoint.transform.position + (transform.up * ((Vector2.Distance(star.transform.position, attractPoint.transform.position) / 3)*2));
 
         // Enable beam
         attractionBeam.SetBeamPos(attractPoint.transform.position, targetPos, star.transform.position);
 
         Rigidbody2D starBody = star.GetComponent<Rigidbody2D>();
-        starBody.velocity = (targetPos - star.transform.position).normalized * attractForce;
+
+        // Set attract force based on distance
+        float multi =  1 - (Mathf.Clamp(Vector2.Distance(attractPoint.transform.position, star.transform.position), 0, attractDistanceMax) / attractDistanceMax);
+        float attractForce = (attractForceMax * multi) < attractDistanceMin ? attractDistanceMin : (attractForceMax * multi);
+
+        starBody.velocity = (targetPos - star.transform.position).normalized * attractForceMax;
     }
 
     // Star Retrieved
