@@ -6,13 +6,12 @@ using System;
 
 public class PlayerPoints : MonoBehaviour
 {
-    public Action PointsAdded;
     private int totalPoints;
 
     public void AddPoints(int points) 
     {
         totalPoints += points;
-        PointsAdded();
+        Actions.PointsAdded?.Invoke();
     }
 
     public int GetPoints() 

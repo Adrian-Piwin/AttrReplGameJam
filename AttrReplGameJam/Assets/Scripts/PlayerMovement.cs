@@ -45,21 +45,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    /* Alt movement
-    private void movePlayer()
-    {
-        // Movement
-        body.AddForce(playerInput * moveSpeed);
-
-        // Drag
-        if (body.velocity.magnitude > dragThreshold)
-        {
-            body.velocity = new Vector2(body.velocity.x * drag, body.velocity.y * drag);
-        }
-
-        Debug.Log(body.velocity.magnitude);
-    }*/
-
     // Rotate player towards mouse
     private void rotatePlayer(){
         // Look at mouse

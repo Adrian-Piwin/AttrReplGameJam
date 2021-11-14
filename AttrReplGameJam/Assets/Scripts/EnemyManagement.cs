@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -54,12 +55,14 @@ public class EnemyManagement : MonoBehaviour
         while (true) 
         {
             yield return new WaitForSeconds(spawnInterval - dangerSignWarningTime);
+            Actions.OnWarningSpawn?.Invoke();
             Vector2 spawnPoint = GetSpawnPoint();
 
             float dangerBufferX = lastSpawnSide == 2 ? -dangerSignPosBuffer : lastSpawnSide == 3 ? dangerSignPosBuffer : 0;
             float dangerBufferY = lastSpawnSide == 0 ? -dangerSignPosBuffer : lastSpawnSide == 1 ? dangerSignPosBuffer : 0;
             Destroy(Instantiate(dangerSign, new Vector2(spawnPoint.x + dangerBufferX, spawnPoint.y + dangerBufferY), Quaternion.identity), dangerSignWarningTime);
             yield return new WaitForSeconds(dangerSignWarningTime);
+            Actions.OnEnemySpawn?.Invoke();
 
             GameObject enemy = Instantiate(SelectEnemy(), spawnPoint, Quaternion.identity);
             EnableEnemyWrapping(enemy);
@@ -77,7 +80,7 @@ public class EnemyManagement : MonoBehaviour
     // Select enemy to spawn
     private GameObject SelectEnemy() 
     {
-        return enemies[Random.Range(0, enemies.Count)];
+        return enemies[UnityEngine.Random.Range(0, enemies.Count)];
     }
 
     // Get offscreen position to spawn enemy
@@ -100,7 +103,7 @@ public class EnemyManagement : MonoBehaviour
         }
 
         // Get random x and y position off the screen
-        int randomSide = Random.Range(0, availableSpawnSide.Count);
+        int randomSide = UnityEngine.Random.Range(0, availableSpawnSide.Count);
         lastSpawnSide = randomSide;
         float xPos = 0, yPos = 0;
         switch (availableSpawnSide[randomSide]) 
@@ -120,9 +123,9 @@ public class EnemyManagement : MonoBehaviour
         }
 
         if (xPos == 0)
-            xPos = Random.Range(leftConstraint, rightConstraint);
+            xPos = UnityEngine.Random.Range(leftConstraint, rightConstraint);
         else if (yPos == 0)
-            yPos = Random.Range(bottomConstraint, topConstraint);
+            yPos = UnityEngine.Random.Range(bottomConstraint, topConstraint);
 
         return new Vector2(xPos, yPos);
     }

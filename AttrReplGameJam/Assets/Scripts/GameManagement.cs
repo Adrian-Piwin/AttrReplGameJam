@@ -29,7 +29,7 @@ public class GameManagement : MonoBehaviour
     void Start()
     {
         // Subscribe to update UI when points added
-        player.GetComponent<PlayerPoints>().PointsAdded += AddPointsUI;
+        Actions.PointsAdded += AddPointsUI;
 
         // Start countdown
         StartCoroutine(Countdown());

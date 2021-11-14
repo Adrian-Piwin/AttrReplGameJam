@@ -12,7 +12,7 @@ public class ScreenShake : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        playerStarController.OnStarHit += DoScreenShake;
+        Actions.OnStarHit += DoScreenShake;
     }
 
     private void DoScreenShake() 

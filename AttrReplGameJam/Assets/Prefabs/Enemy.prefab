@@ -152,7 +152,7 @@ MonoBehaviour:
   moveSpeed: 15
   maxVel: 4
   drag: 0.99
-  deathEffect: {fileID: 0}
+  deathEffect: {fileID: 1689934203065274531, guid: ae1f70dc649b3074c9f39611c954d926, type: 3}
   pointPrefab: {fileID: 3406830090504012068, guid: 109225abdd98d6144937303eeaaf344e, type: 3}
 --- !u!114 &3815475648395064372
 MonoBehaviour:

@@ -11,9 +11,6 @@ public class Star : MonoBehaviour
 
     private Rigidbody2D body;
 
-    public Action OnHitEnemy;
-    public Action OnHitPlayer;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -39,10 +36,10 @@ public class Star : MonoBehaviour
         if (collision.transform.tag == "Enemy")
         {
             enemy = collision.gameObject;
-            OnHitEnemy();
+            Actions.StarHitEnemy();
         }
 
         if (collision.transform.tag == "AttractPoint")
-            OnHitPlayer();
+            Actions.StarHitPlayer();
     }
 }

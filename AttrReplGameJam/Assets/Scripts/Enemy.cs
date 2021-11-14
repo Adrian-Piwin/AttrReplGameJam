@@ -71,6 +71,8 @@ public class Enemy : MonoBehaviour
         pointEffect.transform.position = transform.position;
         pointEffect.GetComponent<PointEffect>().SetPointValue(pointValue, isChained);
 
+        Destroy(Instantiate(deathEffect, transform.position, Quaternion.identity), 1f);
+
         // Give points to player
         player.GetComponent<PlayerPoints>().AddPoints(isChained ? pointValue * 2 : pointValue);
 
