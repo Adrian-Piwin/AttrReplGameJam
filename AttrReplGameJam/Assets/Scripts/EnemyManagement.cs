@@ -69,7 +69,7 @@ public class EnemyManagement : MonoBehaviour
         }
     }
 
-    // Enable wrapping after time to not mess with spawning
+    // Enable collision with barrier after time to not mess with spawning
     IEnumerator EnableEnemyWrapping(GameObject enemy)
     { 
         enemy.GetComponent<ScreenWrap>().canWrap = false;

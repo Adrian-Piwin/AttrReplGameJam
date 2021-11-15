@@ -10,8 +10,9 @@ public class GameManagement : MonoBehaviour
     [SerializeField] private List<string> countdownStrings;
 
     [Header("Object References")]
-    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject playerPrefab;
     [SerializeField] private EnemyManagement enemyManager;
+    [SerializeField] private SoundManagement soundManager;
     
     [Header("UI References")]
     [SerializeField] private TextMeshProUGUI countdownUI;
@@ -22,6 +23,7 @@ public class GameManagement : MonoBehaviour
     [SerializeField] private Animator countdownUIAnimator;
     [SerializeField] private Animator pointUIAnimator;
 
+    private GameObject player;
     private bool isCountingDown;
     private bool isPaused;
 
@@ -32,7 +34,7 @@ public class GameManagement : MonoBehaviour
         Actions.PointsAdded += AddPointsUI;
 
         // Start countdown
-        StartCoroutine(Countdown());
+        StartCoroutine(Countdown("InitalStart"));
     }
 
     private void Update()
@@ -41,16 +43,33 @@ public class GameManagement : MonoBehaviour
             Pause();
     }
 
-    // Start Game
+    // Inital start of game
     private void StartGame() 
     {
-        player.GetComponent<PlayerInput>().EnableInput();
+        player = Instantiate(playerPrefab, Vector2.zero, Quaternion.identity);
+
         enemyManager.EnableSpawning();
         pointUI.transform.gameObject.SetActive(true);
-        Time.timeScale = 1;
     }
 
     // ======== PAUSING ========
+
+    // Unpausing game
+    private void UnpauseGame()
+    {
+        player.GetComponent<PlayerInput>().EnableInput();
+        enemyManager.EnableSpawning();
+        Time.timeScale = 1;
+    }
+
+    // Pause game
+    private void PauseGame()
+    {
+        player.GetComponent<PlayerInput>().DisableInput();
+        enemyManager.DisableSpawning();
+        soundManager.StopAllSoundEffects();
+        Time.timeScale = 0;
+    }
 
     public void Pause() 
     {
@@ -59,22 +78,20 @@ public class GameManagement : MonoBehaviour
         isPaused = !isPaused;
         if (isPaused)
         {
-            Time.timeScale = 0;
-            enemyManager.DisableSpawning();
-            player.GetComponent<PlayerInput>().DisableInput();
             pauseMenu.EnablePauseMenu(true);
+            PauseGame();
         }
         else
         {
             pauseMenu.EnablePauseMenu(false);
-            StartCoroutine(Countdown());
+            StartCoroutine(Countdown("UnpauseStart"));
         }
     }
 
     // ======== UI FUNCTIONS ========
 
     // Countdown for UI
-    IEnumerator Countdown() 
+    IEnumerator Countdown(string startType) 
     {
         isCountingDown = true;
 
@@ -88,7 +105,11 @@ public class GameManagement : MonoBehaviour
         countdownUI.text = "";
 
         isCountingDown = false;
-        StartGame();
+
+        if (startType == "InitalStart")
+            StartGame();
+        else if (startType == "UnpauseStart")
+            UnpauseGame();
     }
 
     // Add points to UI

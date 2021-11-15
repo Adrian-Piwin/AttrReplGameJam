@@ -56,6 +56,12 @@ public class SoundManagement : MonoBehaviour
         }
     }
 
+    public void StopAllSoundEffects() 
+    {
+        audioSrc.Stop();
+        audioSrcLoop.Stop();
+    }
+
     private void OnRepelStar() { OnSoundEvent("OnRepelStar"); }
     private void OnAttractStar() { OnSoundEventLoop("OnAttractStar", true); }
     private void OnStopAttractStar() { OnSoundEventLoop("OnAttractStar", false); }
