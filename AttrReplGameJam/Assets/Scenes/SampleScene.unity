@@ -930,6 +930,7 @@ MonoBehaviour:
   - GO
   playerPrefab: {fileID: 2632922596369833593, guid: b8f7ee618faabf0448030d321d737dfe, type: 3}
   enemyManager: {fileID: 2063713272}
+  soundManager: {fileID: 720074391}
   countdownUI: {fileID: 1547681226}
   pointUI: {fileID: 1107653027}
   pauseMenu: {fileID: 1655779810}

@@ -5,7 +5,6 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private string enemyName;
     [SerializeField] private float health;
     [SerializeField] private int pointValue;
 
@@ -37,6 +36,8 @@ public class Enemy : MonoBehaviour
 
     private void Move() 
     {
+        if (!player.gameObject.activeSelf) return;
+
         // Movement
         if (body.velocity.magnitude < maxVel)
             body.AddForce((player.transform.position - transform.position).normalized * moveSpeed);
@@ -47,6 +48,8 @@ public class Enemy : MonoBehaviour
 
     private void FacePlayer() 
     {
+        if (!player.gameObject.activeSelf) return;
+
         // Look at mouse
         Vector2 dir = new Vector2(player.transform.position.x - transform.position.x, player.transform.position.y - transform.position.y);
 
@@ -77,5 +80,12 @@ public class Enemy : MonoBehaviour
         player.GetComponent<PlayerPoints>().AddPoints(isChained ? pointValue * 2 : pointValue);
 
         Destroy(gameObject);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // On hit player
+        if (collision.gameObject.tag == "Player")
+            Actions.OnEnemyHitPlayer();
     }
 }

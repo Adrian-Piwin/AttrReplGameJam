@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManagement : MonoBehaviour
 {
     [Header("Settings")]
+    [SerializeField] private float endGameSlowmo;
     [SerializeField] private float countdownInterval;
     [SerializeField] private List<string> countdownStrings;
 
@@ -26,12 +28,13 @@ public class GameManagement : MonoBehaviour
     private GameObject player;
     private bool isCountingDown;
     private bool isPaused;
+    private bool gameOver;
 
     // Start is called before the first frame update
     void Start()
     {
-        // Subscribe to update UI when points added
         Actions.PointsAdded += AddPointsUI;
+        Actions.OnPlayerDeath += EndGame;
 
         // Start countdown
         StartCoroutine(Countdown("InitalStart"));
@@ -50,6 +53,15 @@ public class GameManagement : MonoBehaviour
 
         enemyManager.EnableSpawning();
         pointUI.transform.gameObject.SetActive(true);
+    }
+
+    // End game
+    private void EndGame() 
+    {
+        Time.timeScale = endGameSlowmo;
+        enemyManager.DisableSpawning();
+        soundManager.StopAllSoundEffects();
+        gameOver = true;
     }
 
     // ======== PAUSING ========
@@ -73,7 +85,7 @@ public class GameManagement : MonoBehaviour
 
     public void Pause() 
     {
-        if (isCountingDown) return;
+        if (isCountingDown || gameOver) return;
 
         isPaused = !isPaused;
         if (isPaused)

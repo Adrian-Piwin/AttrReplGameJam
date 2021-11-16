@@ -64,17 +64,8 @@ public class EnemyManagement : MonoBehaviour
             yield return new WaitForSeconds(dangerSignWarningTime);
             Actions.OnEnemySpawn?.Invoke();
 
-            GameObject enemy = Instantiate(SelectEnemy(), spawnPoint, Quaternion.identity);
-            EnableEnemyWrapping(enemy);
+            Instantiate(SelectEnemy(), spawnPoint, Quaternion.identity);
         }
-    }
-
-    // Enable collision with barrier after time to not mess with spawning
-    IEnumerator EnableEnemyWrapping(GameObject enemy)
-    { 
-        enemy.GetComponent<ScreenWrap>().canWrap = false;
-        yield return new WaitForSeconds(1f);
-        enemy.GetComponent<ScreenWrap>().canWrap = true;
     }
 
     // Select enemy to spawn
