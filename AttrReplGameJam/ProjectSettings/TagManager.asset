@@ -52,8 +52,11 @@ TagManager:
   - name: Background
     uniqueID: 1264197447
     locked: 0
-  - name: Fragment
+  - name: UI
     uniqueID: 564888301
+    locked: 0
+  - name: Enemy
+    uniqueID: 1699181257
     locked: 0
   - name: Player
     uniqueID: 3610491145

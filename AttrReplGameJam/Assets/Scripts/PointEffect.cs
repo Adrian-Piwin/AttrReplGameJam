@@ -10,10 +10,13 @@ public class PointEffect : MonoBehaviour
     [SerializeField] private Color specialColor;
 
     // Set value, showing whether its a chain kill or not
-    public void SetPointValue(int points, bool isChained) 
+    public void SetPointValue(int points, int chain) 
     {
-        textMesh.text = "+" + (isChained ? points*2 : points);
-        textMesh.color = isChained ? specialColor : defaultColor;
+        if (chain > 0)
+            textMesh.text = "+" + points + " (x" + chain*2 + ")";
+        else
+            textMesh.text = "+" + points;
+        textMesh.color = chain > 0 ? specialColor : defaultColor;
     }
 
     // Destroy when no longer displaying

@@ -5,28 +5,33 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private float health;
-    [SerializeField] private int pointValue;
+    public int health;
+    public int pointValue;
 
     [Header("Movement Settings")]
-    [SerializeField] private float rotateSpeed = 5f; // Speed to look at mouse
-    [SerializeField] private float moveSpeed = 5f; // Speed to reach max vel
-    [SerializeField] private float maxVel; // Max achievable velocity
-    [SerializeField] private float drag; // Counter movement
+    public float rotateSpeed = 5f; // Speed to look at mouse
+    public float moveSpeed = 5f; // Speed to reach max vel
+    public float maxVel; // Max achievable velocity
+    public float drag; // Counter movement
 
     [Header("Effects")]
-    [SerializeField] private GameObject deathEffect; // Death particle effect
-    [SerializeField] private GameObject pointPrefab; // Point effect on death
+    public GameObject deathEffect; // Death particle effect
 
+    [Header("References")]
+    public HealthBar healthbar;
+    public Rigidbody2D body;
+
+    // Player variables
     private Transform player;
-    private Rigidbody2D body;
     private bool isPlayerDead;
+    private int currentHealth;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        body = GetComponent<Rigidbody2D>();
+
+        currentHealth = health;
 
         Actions.OnPlayerDeath += PlayerDied;
     }
@@ -36,15 +41,17 @@ public class Enemy : MonoBehaviour
         if (isPlayerDead) return;
 
         Move();
-        FacePlayer();
+        Orientation();
     }
 
+    // Stop attacking if player is dead
     private void PlayerDied() 
     {
         isPlayerDead = true;
     }
 
-    private void Move() 
+    // Move towards player by default
+    public virtual void Move() 
     {
         // Movement
         if (body.velocity.magnitude < maxVel)
@@ -54,9 +61,10 @@ public class Enemy : MonoBehaviour
         body.velocity = new Vector2(body.velocity.x * drag, body.velocity.y * drag);
     }
 
-    private void FacePlayer() 
+    // Face player by default
+    public virtual void Orientation() 
     {
-        // Look at mouse
+        // Look at player
         Vector2 dir = new Vector2(player.transform.position.x - transform.position.x, player.transform.position.y - transform.position.y);
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -65,29 +73,30 @@ public class Enemy : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotateSpeed);
     }
 
-    public void TakeDamage(bool isChained) 
+    // Take damage from player
+    public void TakeDamage() 
     {
         // Take damage
-        health--;
-        if (health == 0)
-            Die(isChained);
+        currentHealth--;
+        if (currentHealth == 0)
+            Die();
+        else
+            healthbar.TakeDamage((float)currentHealth / (float)health);
     }
 
-    private void Die(bool isChained)
+    // Destroy self and spawn effects on death
+    private void Die()
     {
-        // Death effects
-        GameObject pointEffect = Instantiate(pointPrefab);
-        pointEffect.transform.position = transform.position;
-        pointEffect.GetComponent<PointEffect>().SetPointValue(pointValue, isChained);
-
+        // Destroy effect
         Destroy(Instantiate(deathEffect, transform.position, Quaternion.identity), 1f);
 
-        // Give points to player
-        player.GetComponent<PlayerPoints>().AddPoints(isChained ? pointValue * 2 : pointValue);
+        // Give position and point value to action
+        Actions.OnEnemyDeath(transform.position, pointValue);
 
-        Destroy(gameObject);
+        Destroy(transform.parent.gameObject);
     }
 
+    // Damage player
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // On hit player

@@ -126,9 +126,9 @@ public class GameManagement : MonoBehaviour
     }
 
     // Add points to UI
-    private void AddPointsUI() 
+    private void AddPointsUI(int points) 
     {
-        pointUI.text = "" + player.GetComponent<PlayerPoints>().GetPoints();
+        pointUI.text = "" + points;
         pointUIAnimator.Play("TextChange");
     }
 

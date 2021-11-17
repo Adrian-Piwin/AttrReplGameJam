@@ -4199,5 +4199,5 @@ MonoBehaviour:
   dangerSignPosBuffer: 1.5
   dangerSignWarningTime: 1
   enemies:
-  - {fileID: 3815475648395064370, guid: b12a22bb1aa62a64aa80f189b8c86a41, type: 3}
+  - {fileID: 3815475648395064370, guid: 9e378f3646852324aa0b0707067bfcba, type: 3}
   dangerSign: {fileID: 7752483513971953300, guid: 305f0951980dec041897d46fa72ae3e4, type: 3}

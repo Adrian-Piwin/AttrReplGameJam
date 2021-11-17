@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class PlayerStarController : MonoBehaviour
 {
-    [Header("Settings")]
-    [SerializeField] private float chainTime; // Time between kills to be a chain
-
     [Header("Star Movement Settings")]
     [SerializeField] private float attractForceMax; // Max force of attraction
     [SerializeField] private float attractDistanceMin; // min force of attraction
@@ -25,7 +22,6 @@ public class PlayerStarController : MonoBehaviour
 
     private PlayerInput playerInput;
     private GameObject star;
-    private float timeSinceLastKill;
     private bool allowAttraction;
     private bool isStarConnected = true;
     private bool isAttracting;
@@ -135,13 +131,8 @@ public class PlayerStarController : MonoBehaviour
     {
         Actions.OnStarHit?.Invoke();
 
-        bool isChained = false;
-        if (Time.time - timeSinceLastKill < chainTime)
-            isChained = true;
-        timeSinceLastKill = Time.time;
-
         Enemy enemy = star.GetComponent<Star>().enemy.GetComponent<Enemy>();
-        enemy.TakeDamage(isChained);
+        enemy.TakeDamage();
     }
 
     // Time to wait before allowing attraction

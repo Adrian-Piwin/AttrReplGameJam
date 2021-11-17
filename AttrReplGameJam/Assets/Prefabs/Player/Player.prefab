@@ -70,7 +70,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -684476151
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: -5
   m_Positions:
   - {x: 0, y: 0, z: 0}
@@ -272,7 +272,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -684476151
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 6bf31e43a209fdf40abe924ce496e385, type: 3}
   m_Color: {r: 0.34117648, g: 0.8, b: 0.6, a: 1}
@@ -354,7 +354,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -684476151
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 3be10de35d3e01649ac849c5124d3a50, type: 3}
   m_Color: {r: 0.21960784, g: 0.6392157, b: 0.64705884, a: 1}
@@ -493,7 +493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d0585ea5320d4b48a5d36a0fa9d8d93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1
+  health: 3
   invincibleTime: 1
   deathEffect: {fileID: 1418372845649189644, guid: d18e9e84aad65524480a62b4f4741f32, type: 3}
 --- !u!114 &2632922596369833595
@@ -525,7 +525,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0cca5b6d069bcb44a5ab9a8dd2e7b87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chainTime: 1
   attractForceMax: 14
   attractDistanceMin: 8
   attractDistanceMax: 10
@@ -549,6 +548,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64e1f71e369bc9b43a52c12382d529db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chainTime: 1
+  pointPrefab: {fileID: 3406830090504012068, guid: 109225abdd98d6144937303eeaaf344e, type: 3}
 --- !u!114 &2197810034869861409
 MonoBehaviour:
   m_ObjectHideFlags: 0
