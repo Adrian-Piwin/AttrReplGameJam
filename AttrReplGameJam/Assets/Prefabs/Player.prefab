@@ -493,7 +493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d0585ea5320d4b48a5d36a0fa9d8d93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 3
+  health: 1
   invincibleTime: 1
   deathEffect: {fileID: 1418372845649189644, guid: d18e9e84aad65524480a62b4f4741f32, type: 3}
 --- !u!114 &2632922596369833595

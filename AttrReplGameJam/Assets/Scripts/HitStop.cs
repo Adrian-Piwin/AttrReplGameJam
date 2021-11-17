@@ -12,7 +12,6 @@ public class HitStop : MonoBehaviour
     void Start()
     {
         Actions.OnStarHit += DoHitStop;
-        Actions.OnEnemyHitPlayer += DoHitStop;
     }
 
     private void DoHitStop() 
@@ -29,5 +28,10 @@ public class HitStop : MonoBehaviour
         yield return new WaitForSecondsRealtime(hitStopTime);
         Time.timeScale = 1;
         isWaiting = false;
+    }
+
+    void OnDestroy() 
+    {
+        Actions.OnStarHit -= DoHitStop;
     }
 }

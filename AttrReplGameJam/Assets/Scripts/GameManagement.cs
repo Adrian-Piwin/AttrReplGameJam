@@ -19,7 +19,7 @@ public class GameManagement : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private TextMeshProUGUI countdownUI;
     [SerializeField] private TextMeshProUGUI pointUI;
-    [SerializeField] private PauseMenu pauseMenu;
+    [SerializeField] private MenuManager menuManager;
 
     [Header("Animator References")]
     [SerializeField] private Animator countdownUIAnimator;
@@ -83,6 +83,7 @@ public class GameManagement : MonoBehaviour
         Time.timeScale = 0;
     }
 
+    // Toggle pausing game
     public void Pause() 
     {
         if (isCountingDown || gameOver) return;
@@ -90,12 +91,12 @@ public class GameManagement : MonoBehaviour
         isPaused = !isPaused;
         if (isPaused)
         {
-            pauseMenu.EnablePauseMenu(true);
+            menuManager.EnablePauseMenu(true);
             PauseGame();
         }
         else
         {
-            pauseMenu.EnablePauseMenu(false);
+            menuManager.EnablePauseMenu(false);
             StartCoroutine(Countdown("UnpauseStart"));
         }
     }
@@ -129,5 +130,11 @@ public class GameManagement : MonoBehaviour
     {
         pointUI.text = "" + player.GetComponent<PlayerPoints>().GetPoints();
         pointUIAnimator.Play("TextChange");
+    }
+
+    void OnDestroy() 
+    {
+        Actions.PointsAdded -= AddPointsUI;
+        Actions.OnPlayerDeath -= EndGame;
     }
 }

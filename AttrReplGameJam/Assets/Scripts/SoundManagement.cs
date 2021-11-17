@@ -24,6 +24,8 @@ public class SoundManagement : MonoBehaviour
         Actions.OnStopAttractStar += OnStopAttractStar;
         Actions.OnStarReturn += OnStarReturn;
         Actions.OnStarHit += OnStarHit;
+
+        Actions.OnEnemyHitPlayer += OnPlayerTakeDamage;
     }
 
     private void OnSoundEvent(string eventName)
@@ -68,5 +70,16 @@ public class SoundManagement : MonoBehaviour
     private void OnStarReturn() { OnSoundEvent("OnStarReturn"); }
     private void OnStarHit() { OnSoundEvent("OnStarHit"); }
 
-    
+    private void OnPlayerTakeDamage() { OnSoundEvent("OnPlayerTakeDamage"); }
+
+    void OnDestroy()
+    {
+        Actions.OnRepelStar -= OnRepelStar;
+        Actions.OnAttractStar -= OnAttractStar;
+        Actions.OnStopAttractStar -= OnStopAttractStar;
+        Actions.OnStarReturn -= OnStarReturn;
+        Actions.OnStarHit -= OnStarHit;
+
+        Actions.OnEnemyHitPlayer -= OnPlayerTakeDamage;
+    }
 }

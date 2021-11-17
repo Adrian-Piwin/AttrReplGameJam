@@ -13,11 +13,17 @@ public class PlayerAnimations : MonoBehaviour
 
         Actions.OnEnemyHitPlayer += PlayerFlash;
 
+        // Spawn animation
         animator.Play("PlayerSpawn");
     }
 
     private void PlayerFlash() 
     {
         animator.Play("PlayerFlash");
+    }
+
+    void OnDestroy()
+    {
+        Actions.OnEnemyHitPlayer -= PlayerFlash;
     }
 }

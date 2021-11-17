@@ -33,6 +33,10 @@ public class PlayerStarController : MonoBehaviour
     private void Start()
     {
         playerInput = GetComponent<PlayerInput>();
+
+        // Subscribe to star functions
+        Actions.StarHitEnemy += HitEnemy;
+        Actions.StarHitPlayer += StarRetrieved;
     }
 
     // Update is called once per frame
@@ -64,9 +68,6 @@ public class PlayerStarController : MonoBehaviour
         Star starScript = star.GetComponent<Star>();
         starScript.drag = drag;
         starScript.dragThreshold = dragThreshold;
-        // Subscribe to star functions
-        Actions.StarHitEnemy += HitEnemy;
-        Actions.StarHitPlayer += StarRetrieved;
 
         // Disable star on player
         playerStar.SetActive(false);
@@ -149,5 +150,11 @@ public class PlayerStarController : MonoBehaviour
         allowAttraction = false;
         yield return new WaitForSeconds(repelTimeBuffer);
         allowAttraction = true;
+    }
+
+    void OnDestroy()
+    {
+        Actions.StarHitEnemy -= HitEnemy;
+        Actions.StarHitPlayer -= StarRetrieved;
     }
 }

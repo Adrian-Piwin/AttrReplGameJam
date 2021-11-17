@@ -22,31 +22,37 @@ public class PlayerHealth : MonoBehaviour
         Actions.OnEnemyHitPlayer += TakeDamage;
     }
 
-    private void TakeDamage() 
+    private void TakeDamage()
     {
         if (isInvincible) return;
 
         currentHealth--;
 
+        // Die or take damage
         if (currentHealth == 0)
             Die();
-        else 
+        else
         {
             StartCoroutine(InvincibleTime());
         }
     }
 
-    IEnumerator InvincibleTime() 
+    IEnumerator InvincibleTime()
     {
         isInvincible = true;
         yield return new WaitForSeconds(invincibleTime);
         isInvincible = false;
     }
 
-    private void Die() 
+    private void Die()
     {
         Actions.OnPlayerDeath();
         Destroy(Instantiate(deathEffect, transform.position, Quaternion.identity), 2f);
-        gameObject.SetActive(false);
+        Destroy(gameObject);
+    }
+
+    void OnDestroy() 
+    {
+        Actions.OnEnemyHitPlayer -= TakeDamage;
     }
 }

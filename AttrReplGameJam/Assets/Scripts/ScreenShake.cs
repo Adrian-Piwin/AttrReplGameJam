@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ScreenShake : MonoBehaviour
 {
-    public PlayerStarController playerStarController;
-
     private Animator animator;
 
     // Start is called before the first frame update
@@ -19,5 +17,11 @@ public class ScreenShake : MonoBehaviour
     private void DoScreenShake() 
     {
         animator.Play("ScreenShake");
+    }
+
+    void OnDestroy()
+    {
+        Actions.OnStarHit -= DoScreenShake;
+        Actions.OnEnemyHitPlayer -= DoScreenShake;
     }
 }

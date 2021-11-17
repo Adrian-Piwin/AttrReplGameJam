@@ -20,24 +20,32 @@ public class Enemy : MonoBehaviour
 
     private Transform player;
     private Rigidbody2D body;
+    private bool isPlayerDead;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         body = GetComponent<Rigidbody2D>();
+
+        Actions.OnPlayerDeath += PlayerDied;
     }
 
     private void FixedUpdate()
     {
+        if (isPlayerDead) return;
+
         Move();
         FacePlayer();
     }
 
+    private void PlayerDied() 
+    {
+        isPlayerDead = true;
+    }
+
     private void Move() 
     {
-        if (!player.gameObject.activeSelf) return;
-
         // Movement
         if (body.velocity.magnitude < maxVel)
             body.AddForce((player.transform.position - transform.position).normalized * moveSpeed);
@@ -48,8 +56,6 @@ public class Enemy : MonoBehaviour
 
     private void FacePlayer() 
     {
-        if (!player.gameObject.activeSelf) return;
-
         // Look at mouse
         Vector2 dir = new Vector2(player.transform.position.x - transform.position.x, player.transform.position.y - transform.position.y);
 
@@ -87,5 +93,10 @@ public class Enemy : MonoBehaviour
         // On hit player
         if (collision.gameObject.tag == "Player")
             Actions.OnEnemyHitPlayer();
+    }
+
+    void OnDestroy() 
+    {
+        Actions.OnPlayerDeath -= PlayerDied;
     }
 }
