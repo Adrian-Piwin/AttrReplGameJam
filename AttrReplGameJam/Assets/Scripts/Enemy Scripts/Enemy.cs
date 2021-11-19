@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour
     public Rigidbody2D body;
 
     // Player variables
-    private Transform player;
+    [System.NonSerialized] public Transform player;
     private bool isPlayerDead;
     private int currentHealth;
 

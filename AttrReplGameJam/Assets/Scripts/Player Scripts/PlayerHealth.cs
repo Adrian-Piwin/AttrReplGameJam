@@ -48,6 +48,8 @@ public class PlayerHealth : MonoBehaviour
     {
         Actions.OnPlayerDeath();
         Destroy(Instantiate(deathEffect, transform.position, Quaternion.identity), 2f);
+        if (GameObject.FindGameObjectWithTag("Star") != null)
+            Destroy(GameObject.FindGameObjectWithTag("Star"));
         Destroy(gameObject);
     }
 

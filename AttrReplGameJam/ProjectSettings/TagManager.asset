@@ -12,6 +12,7 @@ TagManager:
   - ExplosionFX
   - Bullet
   - HealthBar
+  - Star
   layers:
   - Default
   - TransparentFX

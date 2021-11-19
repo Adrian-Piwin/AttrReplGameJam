@@ -854,8 +854,8 @@ SpriteRenderer:
   m_SortingLayerID: 1264197447
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 7bfaf1c10e7bd2f4bb6bbf9db34379ea, type: 3}
-  m_Color: {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 599c0d8a9402b134594a69e99e473c8c, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -873,8 +873,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 531019492}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.00437, y: 0.0036, z: 0}
-  m_LocalScale: {x: 17.785566, y: 10.008683, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
@@ -4199,5 +4199,5 @@ MonoBehaviour:
   dangerSignPosBuffer: 1.5
   dangerSignWarningTime: 1
   enemies:
-  - {fileID: 3815475648395064370, guid: 9e378f3646852324aa0b0707067bfcba, type: 3}
+  - {fileID: 9002390076347769092, guid: 9f843b489957e7c4aab99785fcf57444, type: 3}
   dangerSign: {fileID: 7752483513971953300, guid: 305f0951980dec041897d46fa72ae3e4, type: 3}
